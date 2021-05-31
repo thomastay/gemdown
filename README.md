@@ -16,6 +16,10 @@ Run the project directly, via `:main-opts` (`-m me.ttay.thomas-gemdown`):
     $ clojure -M:run-m
     Hello, World!
 
+Run the project's tests:
+
+    $ clojure -X:test:runner
+
 Build an uberjar:
 
     $ clojure -X:uberjar
