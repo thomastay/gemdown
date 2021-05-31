@@ -1,0 +1,10 @@
+{:paths ["src" "resources", "classes"]
+ :deps {org.clojure/clojure {:mvn/version "1.10.3"}}
+ :aliases
+ {:run-m {:main-opts ["-m" "me.ttay.thomas-gemdown"]}
+  :uberjar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.211"}}
+            :exec-fn hf.depstar/uberjar
+            :exec-args {:aot true
+                        :jar "thomas-gemdown.jar"
+                        :main-class "me.ttay.thomas-gemdown"
+                        :sync-pom true}}}}
