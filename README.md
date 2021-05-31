@@ -3,9 +3,13 @@
 Turns Markdown into Gemini!
 Project is still in alpha stage.
 
-## Usage
+## Building from source
 
-You will need Java 16 and above (only used for the Records feature.)
+You will need Clojure 1.10.3, as well as Java 16 and above (only used for the Records feature.).
+
+Build the java files by running `make all`
+
+## Usage
 
 Run the project directly, via `:main-opts` (`-m me.ttay.thomas-gemdown`):
 
