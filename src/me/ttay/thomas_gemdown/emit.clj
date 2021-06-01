@@ -16,21 +16,45 @@
 ;; In the future, I may optimize it to write line by line, to some buffered output stream.
 
 (defn lines->gemtext
+  "Given a list of lines, turns it into a string"
   [lines]
   (->> (map
         (fn [line]
           (let [tag (first line)]
             (case tag
-              :text (str (get line 1))
-              :link (str "\n=> " (get line 1) " " (get line 2)) ; TODO align this somehow?
-              :bullet (str "* " (get line 1))
-              :blockquote (str "```" (get line 1))
+              :text (str (line 1))
+              :link (str "\n=> " (line 1) " " (line 2)) ; TODO align this somehow?
+              :bullet (str "* " (line 1))
+              :blockquote (str "```" (line 1))
               :blankline ""
              ; TODO ordered lists? Renumber them? or should that be part of the passes?
-              :ord (str (get line 1) ". " (get line 2)))))
+              :ord (str (line 1) ". " (line 2)))))
         lines)
-       (str/join "\n")))
+       (str/join \newline)))
 
+(defn references->str
+  "Given a list of references, turns it into a string."
+  [references]
+  (->> (map (fn [reference i]
+              (let [tag (first reference)]
+                (case tag
+                  :link (str i ". *" (reference 1) "* " (reference 2)))))
+            references
+            (range 1 (inc (count references))))
+       (str/join \newline)))
+
+(defn footnote-num [footnote] (footnote 1))
+
+(defn footnotes->str
+  "Given a list of footnotes, turns it into a sorted list of footnotes."
+  [footnotes]
+  (->> footnotes
+       (sort-by footnote-num)
+       (map (fn [footnote]
+              (let [tag (first footnote)]
+                (case tag
+                  :footnote (str (footnote 1) ") " (footnote 2))))))
+       (str/join \newline)))
 
 (comment
   (println (lines->gemtext [[:text "hello, world!"]
@@ -46,6 +70,12 @@
   (def secondp (passes/second-pass gemlines2 (passes/count-image-links gemlines2)))
   (def mylines (:lines secondp))
   (println (lines->gemtext mylines))
+  (println (references->str [[:link "my_link" "https://example.com"]
+                             [:link "my_link" "https://zombo.com"]
+                             [:link "oopt" "https://example.com"]]))
+  (println (footnotes->str [[:footnote 2 "I am the second note"]
+                            [:footnote 1 "I am the first note"]
+                            [:footnote 3 "I am the third note"]]))
 
   ;;
   )
