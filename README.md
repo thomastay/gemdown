@@ -7,14 +7,28 @@ Project is still in alpha stage.
 
 You will need Clojure 1.10.3, as well as Java 16 and above (only used for the Records feature.).
 
-Build the java files by running `make all`
+Build the java files by running `make all`. Alternatively, run `javac src/me/ttay/parser_combinators/CharStream.java -d classes/`
+
+No building of the Clojure files is needed, you can run it if you have Clojure installed.
 
 ## Usage
 
-Run the project directly, via `:main-opts` (`-m me.ttay.thomas-gemdown`):
+Run the project directly, like so:
 
-    $ clojure -M:run-m
-    Hello, World!
+    $ clojure -M -m me.ttay.thomas-gemdown resources/test1.md
+
+Output:
+
+> # Hello!
+>
+> This is just regular markdown
+>
+> But it can be converted into gemini text!
+>
+> - thing 1
+> - thing 2
+>
+> < more gemtext omitted... >
 
 Run the project's tests:
 
