@@ -31,7 +31,7 @@
          (passes/second-pass num-image-links)
          (lines->gemtext num-image-links))))
 
-(defn -main [args] (run-file args))
+(defn -main [& args] (run-file (first args)))
 
 (comment
   (run-file "resources/test1.md"))

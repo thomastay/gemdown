@@ -12,6 +12,6 @@
   :uberjar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.216"}}
             :exec-fn hf.depstar/uberjar
             :exec-args {:aot true
-                        :jar "{{name}}.jar"
-                        :main-class "{{namespace}}"
+                        :jar "thomas_gemdown.jar"
+                        :main-class "me.ttay.thomas-gemdown"
                         :sync-pom true}}}}
