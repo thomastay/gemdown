@@ -3,7 +3,8 @@
    [me.ttay.parser-combinators.combinators :as c]
    [me.ttay.thomas-gemdown.parser :as parser]
    [me.ttay.thomas-gemdown.passes :as passes]
-   [me.ttay.thomas-gemdown.emit :as emit]))
+   [me.ttay.thomas-gemdown.emit :as emit])
+  (:gen-class))
 
 (defn parse-file
   [filename]
