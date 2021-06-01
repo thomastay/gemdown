@@ -15,7 +15,7 @@
 ;; We first buffer the entire gemtext file as a string, then write it to disk.
 ;; In the future, I may optimize it to write line by line, to some buffered output stream.
 
-(defn lines->gemtext
+(defn lines->str
   "Given a list of lines, turns it into a string"
   [lines]
   (->> (map
@@ -34,13 +34,13 @@
 
 (defn references->str
   "Given a list of references, turns it into a string."
-  [references]
+  [references num-image-links]
   (->> (map (fn [reference i]
               (let [tag (first reference)]
                 (case tag
                   :link (str i ". *" (reference 1) "* " (reference 2)))))
             references
-            (range 1 (inc (count references))))
+            (range (inc num-image-links) (+ (count references) num-image-links 1)))
        (str/join \newline)))
 
 (defn footnote-num [footnote] (footnote 1))
@@ -57,19 +57,19 @@
        (str/join \newline)))
 
 (comment
-  (println (lines->gemtext [[:text "hello, world!"]
-                            [:bullet "bullet1"]
-                            [:bullet "bullet2"]
-                            [:blockquote "js\nmynamekeyes\n```"]
-                            [:bullet "bullet3"]
-                            [:link "my link here" "https://examples.com"]]))
+  (println (lines->str [[:text "hello, world!"]
+                        [:bullet "bullet1"]
+                        [:bullet "bullet2"]
+                        [:blockquote "js\nmynamekeyes\n```"]
+                        [:bullet "bullet3"]
+                        [:link "my link here" "https://examples.com"]]))
   (def gemlines2 (->> (c/run-parser parser/gemdown (slurp "resources/test2.md"))
                       (:thomastay.clj-terser.combinators/success)
                       (nnext)
                       (first)))
   (def secondp (passes/second-pass gemlines2 (passes/count-image-links gemlines2)))
   (def mylines (:lines secondp))
-  (println (lines->gemtext mylines))
+  (println (lines->str mylines))
   (println (references->str [[:link "my_link" "https://example.com"]
                              [:link "my_link" "https://zombo.com"]
                              [:link "oopt" "https://example.com"]]))

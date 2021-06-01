@@ -64,6 +64,11 @@
   ([v] {::success v})
   ([v errs] {::success v, ::errs errs}))
 
+(def unwrap-success
+  "Given a parse result, extract out the success. Only for external use.
+   Internal use should use ::success"
+  ::success)
+
 (defn expected-err [msg] {::errs [{::errtype ::expected ::errmsg msg}]})
 (defn expected-str [msg] {::errs [{::errtype ::expected-str ::errmsg msg}]})
 (defn unexpected-err [msg] {::errs [{::errtype ::unexpected ::errmsg msg}]})

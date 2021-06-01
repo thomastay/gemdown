@@ -136,7 +136,7 @@
 (defn second-pass
   "Runs the second pass to move image links onto their own line, collect regular links into a references section,
    and turn regular links into bracketed text."
-  [lines num-image-links]
+  [num-image-links, lines]
   (let [{:keys [lines, references, footnotes]} (second-pass-over-lines (ignore-tag lines) (inc num-image-links))]
     {:lines (vec lines), :references (vec references), :footnotes (vec footnotes)}))
 
