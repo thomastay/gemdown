@@ -56,6 +56,33 @@
                   :footnote (str (footnote 1) ") " (footnote 2))))))
        (str/join \newline)))
 
+
+(defn parse-file
+  [file-str]
+  (let [[_, header, lines] (->> (c/run-parser parser/gemdown file-str)
+                                (c/unwrap-success))]
+    {:header header, :lines lines}))
+
+(def ^:private extra-vertical-space "\n\n")
+
+(defn lines->gemtext
+  [num-image-links, {:keys [lines, references, footnotes]}]
+  (let [lines-str (lines->str lines)
+        references-str (references->str references num-image-links)
+        footnotes-str (footnotes->str footnotes)]
+    (str lines-str extra-vertical-space
+         "# References\n"
+         references-str extra-vertical-space
+         "# Footnotes\n"
+         footnotes-str)))
+
+(defn file->gemtext [file-str]
+  (let [{:keys [lines]} (parse-file file-str)
+        num-image-links (passes/count-image-links lines)]
+    (->> lines
+         (passes/second-pass num-image-links)
+         (lines->gemtext num-image-links))))
+
 (comment
   (println (lines->str [[:text "hello, world!"]
                         [:bullet "bullet1"]
