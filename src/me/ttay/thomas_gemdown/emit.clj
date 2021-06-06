@@ -23,7 +23,7 @@
           (let [tag (first line)]
             (case tag
               :text (str (line 1))
-              :link (str "\n=> " (line 1) " " (line 2)) ; TODO align this somehow?
+              :link (str "\n=> " (line 2) " " (line 1)) ; TODO align this somehow?
               :bullet (str "* " (line 1))
               :blockquote (str "```" (line 1))
               :blankline ""
@@ -38,7 +38,7 @@
   (->> (map (fn [reference i]
               (let [tag (first reference)]
                 (case tag
-                  :link (str i ". *" (reference 1) "* " (reference 2)))))
+                  :link (str "=> " (reference 2) " " i ". " (reference 1)))))
             references
             (range (inc num-image-links) (+ (count references) num-image-links 1)))
        (str/join \newline)))

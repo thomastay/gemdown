@@ -19,20 +19,23 @@
   (let [lines-str (emit/lines->str lines)
         references-str (emit/references->str references num-image-links)
         footnotes-str (emit/footnotes->str footnotes)]
-    (println lines-str extra-vertical-space
-             "# References\n"
-             references-str extra-vertical-space
-             "# Footnotes\n"
-             footnotes-str)))
+    (str lines-str extra-vertical-space
+         "# References\n"
+         references-str extra-vertical-space
+         "# Footnotes\n"
+         footnotes-str)))
 
-(defn run-file [filename]
+(defn file->gemtext [filename]
   (let [{:keys [lines]} (parse-file filename)
         num-image-links (passes/count-image-links lines)]
     (->> lines
          (passes/second-pass num-image-links)
          (lines->gemtext num-image-links))))
 
+(defn run-file [filename]
+  (println (file->gemtext filename)))
+
 (defn -main [& args] (run-file (first args)))
 
 (comment
-  (run-file "resources/test1.md"))
+  (spit "resources/test2.gmi" (file->gemtext "resources/test2.md")))

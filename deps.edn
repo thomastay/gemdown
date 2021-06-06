@@ -1,5 +1,6 @@
 {:paths ["src" "resources", "classes"]
- :deps {org.clojure/clojure {:mvn/version "1.10.3"}}
+ :deps {org.clojure/clojure {:mvn/version "1.10.3"},
+        hawk/hawk {:mvn/version "0.2.11"}}
  :aliases
  {:run-m {:main-opts ["-m" "me.ttay.thomas-gemdown"]}
   :test {:extra-paths ["test"]
