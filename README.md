@@ -1,7 +1,11 @@
 # Thomas's Gemini Markdown format
 
-Turns Markdown into Gemini!
-Project is still in alpha stage.
+Turns Markdown into [Gemini text](https://gemini.circumlunar.space/docs/gemtext.gmi)!
+Project is still in alpha stage, and has some known bugs.
+
+This is an application of my Parser Combinator library, which is in a sub folder here: [./src/me/ttay/parser_combinators](./src/me/ttay/parser_combinators)
+
+It's modelled after FParsec, so if you're familiar with that library, it has a very similar API.
 
 ## Building from source
 
